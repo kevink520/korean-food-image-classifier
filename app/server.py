@@ -8,6 +8,9 @@ from io import BytesIO
 from fastai import *
 from fastai.vision import *
 
+from functools import partial
+import pickle
+
 model_file_url = 'https://drive.google.com/uc?export=download&id=15NSQ3zqLBrSjpClh8Un-sA2wMUh9M2gT'
 model_file_name = 'korean-food-classifier'
 classes = ['bibim_guksu',
@@ -49,6 +52,8 @@ async def setup_learner():
     #    ds_tfms=get_transforms(), size=224).normalize(imagenet_stats)
     #learn = cnn_learner(data_bunch, models.resnet50, pretrained=False)
     #learn.load(model_file_name)
+    pickle.load = partial(pickle.load, encoding='latin1')
+    pickle.Unpickler = partial(pickle.Unpickler, encoding='latin1')
     learn = load_learner(path/'models', f'{model_file_name}.pkl')    
     return learn
 

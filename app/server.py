@@ -9,7 +9,7 @@ from fastai import *
 from fastai.vision import *
 
 model_file_url = 'https://drive.google.com/uc?export=download&id=15NSQ3zqLBrSjpClh8Un-sA2wMUh9M2gT'
-model_file_name = 'model'
+model_file_name = 'korean-food-classifier'
 classes = ['bibim_guksu',
  'bibimbap',
  'bokkeum',
@@ -44,12 +44,12 @@ async def download_file(url, dest):
             with open(dest, 'wb') as f: f.write(data)
 
 async def setup_learner():
-    await download_file(model_file_url, path/'models'/f'{model_file_name}.pth')
+    await download_file(model_file_url, path/'models'/f'{model_file_name}.pkl')
     #data_bunch = ImageDataBunch.single_from_classes(path, classes,
     #    ds_tfms=get_transforms(), size=224).normalize(imagenet_stats)
     #learn = cnn_learner(data_bunch, models.resnet50, pretrained=False)
     #learn.load(model_file_name)
-    learn = load_learner(path, 'models'/f'{model_file_name}.pth')    
+    learn = load_learner(path/'models', f'{model_file_name}.pkl')    
     return learn
 
 loop = asyncio.get_event_loop()
